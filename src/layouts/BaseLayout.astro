@@ -1,4 +1,6 @@
 ---
+import '../styles/global.css';
+
 interface Props {
   title: string;
   description: string;
@@ -8,7 +10,6 @@ interface Props {
 }
 
 const { title, description, ogUrl, ogTitle, keywords } = Astro.props;
-import '../styles/global.css';
 ---
 
 <!DOCTYPE html>
