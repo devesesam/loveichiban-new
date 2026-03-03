@@ -1,0 +1,87 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  ogUrl: string;
+  ogTitle?: string;
+  keywords?: string;
+}
+
+const { title, description, ogUrl, ogTitle, keywords } = Astro.props;
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  {keywords && <meta name="keywords" content={keywords} />}
+  <meta property="og:title" content={ogTitle || title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:type" content="website">
+  <meta property="og:url" content={ogUrl}>
+  <link rel="icon" href="/favicon.png" type="image/png">
+</head>
+<body>
+  <slot />
+
+  <script>
+    // --- Header scroll effect ---
+    const header = document.getElementById('header');
+
+    if (header && !header.classList.contains('scrolled')) {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 80) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      }, { passive: true });
+    }
+
+    // --- Mobile menu toggle ---
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    if (hamburger && mobileMenu) {
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+      });
+
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          hamburger.classList.remove('active');
+          mobileMenu.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      });
+    }
+
+    // --- Fade in on scroll (Intersection Observer) ---
+    const fadeElements = document.querySelectorAll('.fade-in');
+
+    if (fadeElements.length > 0 && 'IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+      });
+
+      fadeElements.forEach(el => observer.observe(el));
+    } else {
+      fadeElements.forEach(el => el.classList.add('visible'));
+    }
+  </script>
+</body>
+</html>

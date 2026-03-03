@@ -1,0 +1,134 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import MobileMenu from '../components/MobileMenu.astro';
+import Footer from '../components/Footer.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import { Image } from 'astro:assets';
+
+import heroImage from '../assets/images/hero.jpg';
+import pokeBowlImage from '../assets/images/poke-bowl.jpg';
+import cateringImage from '../assets/images/catering.jpg';
+import shopImage from '../assets/images/shop.jpg';
+import gallery1 from '../assets/images/gallery-1.jpg';
+import gallery2 from '../assets/images/gallery-2.jpg';
+import gallery3 from '../assets/images/gallery-3.jpg';
+import gallery4 from '../assets/images/gallery-4.jpg';
+---
+
+<BaseLayout
+  title="Ichiban: Authentic Japanese Street Eats in Mount Maunganui"
+  description="Savor authentic Japanese street flavors at Ichiban, The Historic Village, 17th Ave West, Tauranga South. Enjoy poke bowls, donburi, and more. Visit today!"
+  ogUrl="https://loveichiban.co.nz/"
+  keywords="Ichiban, Japanese Street Food, Authentic Japanese Food, Poke Bowls, Donburi, Tauranga, Mount Maunganui, Food Truck, Catering"
+>
+  <Header currentPage="/" />
+  <MobileMenu currentPage="/" />
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <Image
+        src={heroImage}
+        alt="Hero background"
+        class="hero-bg-image"
+        loading="eager"
+        widths={[640, 1024, 1920]}
+        sizes="100vw"
+      />
+    </div>
+    <div class="hero-content">
+      <h1>Poke Bowls with a Japanese Twist!</h1>
+      <div class="hero-buttons">
+        <a href="/menu" class="btn btn-primary">Our Menu</a>
+        <a href="/about-us" class="btn btn-outline">Find Out More</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Introduction Section -->
+  <section class="intro-section fade-in" id="about-intro">
+    <div class="container">
+      <h2>Authentic Japanese Street Food by Ichiban</h2>
+      <p>At Ichiban, we bring the vibrant flavors of Japan's street markets to the heart of BOP, New Zealand. Our food truck serves up a delicious selection of authentic Japanese dishes, crafted with fresh ingredients and traditional techniques. Whether you are craving one of our savory bowls or refreshing cold drinks, our menu offers a combination of taste and fresh ingredients for everyone to enjoy.</p>
+      <br>
+      <p>Join us for a unique culinary experience that combines the best of Japanese cuisine with the welcoming spirit of New Zealand.</p>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="services-section" id="services">
+    <div class="container">
+      <h2 class="fade-in">Ichiban On The Road</h2>
+      <div class="services-grid">
+        <ServiceCard
+          image={pokeBowlImage}
+          imageAlt="Poke Bowls and Donburi by Ichiban"
+          title="Poke Bowls and Donburi"
+          description="Savour the vibrant flavors of street food with Ichiban in Tauranga! Discover the delicious range of Poke Bowls and Donburi we have for you."
+          linkHref="/menu"
+          linkText="See Our Food"
+        />
+        <ServiceCard
+          image={cateringImage}
+          imageAlt="Ichiban Catering Services"
+          title="Catering Services"
+          description="Bring our flavors to your event with our catering service. Enjoy a range of authentic street food dishes from our Ichiban Japanese Street Food Truck, perfect for weddings, celebrations, and corporate events."
+          linkHref="mailto:talktoichiban@hotmail.com"
+          linkText="Book Now"
+        />
+        <ServiceCard
+          image={shopImage}
+          imageAlt="Visit Ichiban Shop at The Historic Village"
+          title="Visit Our Shop"
+          description="Our new shop is open at The Historic Village in Tauranga. Serving up bold Japanese street food in flavour-packed donburi, and fresh poke bowls with a twist. Plus, great coffee to top it all off!"
+          linkHref="https://www.facebook.com/ichiban.caravan/"
+          linkText="Come Find Us"
+          linkExternal={true}
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section class="gallery-section" id="gallery">
+    <div class="gallery-grid">
+      <Image src={gallery1} alt="Fresh poke bowl with salmon and avocado" loading="lazy" width={600} height={350} />
+      <Image src={gallery2} alt="Customer being served at Ichiban food truck" loading="lazy" width={600} height={350} />
+      <Image src={gallery3} alt="Ichiban food truck exterior with branding" loading="lazy" width={600} height={350} />
+      <Image src={gallery4} alt="Delicious donburi bowls close-up" loading="lazy" width={600} height={350} />
+      <Image src={pokeBowlImage} alt="Poke bowl with fresh ingredients" loading="lazy" width={600} height={350} />
+      <Image src={cateringImage} alt="Variety of Japanese dishes" loading="lazy" width={600} height={350} />
+    </div>
+  </section>
+
+  <!-- Location Section -->
+  <section class="location-section" id="location">
+    <div class="location-info fade-in">
+      <h2>Location</h2>
+      <p>The Historic Village, 17th Ave West, Tauranga South, Tauranga</p>
+    </div>
+    <div class="map-container">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3166.5!2d176.129!3d-37.709!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6d6e7740b8a5b8b1%3A0x2a8f4e6c1b4d5e7f!2sThe%20Historic%20Village!5e0!3m2!1sen!2snz!4v1700000000000!5m2!1sen!2snz"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Ichiban Location - The Historic Village, Tauranga">
+      </iframe>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .hero-bg-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+</style>

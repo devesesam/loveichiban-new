@@ -1,0 +1,64 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import MenuItem from '../components/MenuItem.astro';
+---
+
+<PageLayout
+  title="Online Orders for Ichiban Delights on Wheels in New Zealand"
+  description="Savor authentic Japanese street food at Ichiban Food Truck in New Zealand. Enjoy poke bowls, donburi, and more. Fresh flavors await. Visit us today!"
+  ogUrl="https://loveichiban.co.nz/menu"
+  keywords="Ichiban, Menu, Japanese Street Food, Poke Bowls, Donburi, Sauces, Rice, Tauranga"
+  currentPage="/menu"
+>
+  <section class="menu-section">
+    <div class="container">
+
+      <!-- Donburi -->
+      <div class="menu-category fade-in">
+        <h2>Donburi</h2>
+        <p class="menu-price-label">Regular $18 | Large $20</p>
+        <div class="menu-grid">
+          <MenuItem name="Japanese Fried Chicken" description="Crispy, juicy fried chicken served over rice." />
+          <MenuItem name="Prawn Tempura" description="Lightly battered prawns with a crispy crunch." />
+          <MenuItem name="Jackfruit (Vegan)" description="Tender, seasoned jackfruit on rice." />
+          <MenuItem name="Calamari" description="Golden-fried calamari rings with a hint of spice." />
+        </div>
+      </div>
+
+      <!-- Poke Bowls -->
+      <div class="menu-category fade-in">
+        <h2>Poke Bowls</h2>
+        <p class="menu-price-label">Regular $18 | Large $20</p>
+        <div class="menu-grid">
+          <MenuItem name="Tasty Salmon" description="Fresh, marinated salmon with vibrant toppings." />
+          <MenuItem name="Fresh Tuna" description="Premium tuna with a light, fresh flavor." />
+        </div>
+      </div>
+
+      <!-- Sauces -->
+      <div class="menu-category fade-in">
+        <h2>Sauces</h2>
+        <div class="menu-grid-sm">
+          <MenuItem name="Japanese Mayo" description="Creamy, savory Japanese-style mayo." variant="small" />
+          <MenuItem name="Spicy Mayo" description="Mayo with a kick of heat." variant="small" />
+          <MenuItem name="Wasabi Mayo" description="Zesty mayo with a wasabi twist." variant="small" />
+          <MenuItem name="Sweet Soy Sauce" description="A rich, sweet soy glaze." variant="small" />
+          <MenuItem name="Vegan Aioli" description="Dairy-free creamy aioli." variant="small" />
+          <MenuItem name="The Mama Sauce" description="A bold mix of soy, garlic, and ginger." variant="small" />
+          <MenuItem name="Ponzu" description="Refreshing citrus soy sauce." variant="small" />
+          <MenuItem name="Sriracha" description="Classic spicy chili sauce." variant="small" />
+        </div>
+      </div>
+
+      <!-- Rice Options -->
+      <div class="menu-category fade-in">
+        <h2>Rice Options</h2>
+        <div class="menu-grid-sm">
+          <MenuItem name="White Rice" description="Soft, fluffy steamed rice." variant="small" />
+          <MenuItem name="Quinoa Brown Rice" description="Nutty quinoa mixed with wholesome brown rice." variant="small" />
+        </div>
+      </div>
+
+    </div>
+  </section>
+</PageLayout>

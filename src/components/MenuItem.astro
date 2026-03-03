@@ -1,0 +1,16 @@
+---
+interface Props {
+  name: string;
+  description: string;
+  variant?: 'default' | 'small';
+}
+
+const { name, description, variant = 'default' } = Astro.props;
+
+const itemClass = variant === 'small' ? 'menu-item-sm' : 'menu-item';
+---
+
+<div class={itemClass}>
+  <h3>{name}</h3>
+  <p>{description}</p>
+</div>

@@ -1,0 +1,35 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { Image } from 'astro:assets';
+import aboutTeam from '../assets/images/about-team.png';
+---
+
+<PageLayout
+  title="Taste Traditional Flavors: Ichiban Food Truck NZ"
+  description="Taste the best of Japanese street food at Ichiban in New Zealand. Enjoy authentic flavors with fresh, quality ingredients. Find our food truck near you today!"
+  ogUrl="https://loveichiban.co.nz/about-us"
+  keywords="Ichiban, About Us, Japanese Street Food, Authentic Japanese Food, Tauranga, Mount Maunganui, Food Truck"
+  currentPage="/about-us"
+>
+  <section class="about-section">
+    <div class="container">
+      <div class="about-content fade-in">
+        <div class="about-image">
+          <Image src={aboutTeam} alt="The Ichiban team and founders" loading="lazy" width={600} />
+        </div>
+        <div class="about-text">
+          <h2>About Ichiban</h2>
+          <p>Welcome to Ichiban, your go-to Japanese street food truck serving authentic and mouth-watering
+            Japanese delights right on the street! Our passion for traditional flavors and fresh ingredients
+            brings the vibrant taste of Japan closer to you. Whether you're craving classic savory poke
+            bowls, or crispy tempura, Ichiban offers a diverse menu that caters to all taste buds while
+            capturing the authentic spirit of Japanese street food culture.</p>
+          <p>Founded by culinary enthusiasts who have traveled extensively through Japan's bustling street
+            food scenes, Ichiban promises not just a meal, but an experience. Our commitment to quality and
+            customer satisfaction is evident in every meal we create. Join us on this delicious journey, and
+            let Ichiban bring a piece of Japan to your neighborhood today!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</PageLayout>
