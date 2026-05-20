@@ -1,7 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import { Image } from 'astro:assets';
-import aboutTeam from '../assets/images/about-team.png';
+import { Picture } from 'astro:assets';
+import aboutTeam from '../assets/images/about-team.jpg';
 ---
 
 <PageLayout
@@ -15,7 +15,7 @@ import aboutTeam from '../assets/images/about-team.png';
     <div class="container">
       <div class="about-content fade-in">
         <div class="about-image">
-          <Image src={aboutTeam} alt="The Ichiban team and founders" loading="lazy" width={600} />
+          <Picture src={aboutTeam} formats={['avif', 'webp']} alt="The Ichiban team and founders" loading="lazy" widths={[400, 600, 1200]} sizes="(max-width: 768px) 100vw, 600px" />
         </div>
         <div class="about-text">
           <h2>About Ichiban</h2>

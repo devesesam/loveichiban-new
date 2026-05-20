@@ -4,7 +4,7 @@ import Header from '../components/Header.astro';
 import MobileMenu from '../components/MobileMenu.astro';
 import Footer from '../components/Footer.astro';
 import ServiceCard from '../components/ServiceCard.astro';
-import { Image } from 'astro:assets';
+import { Picture, getImage } from 'astro:assets';
 
 import heroImage from '../assets/images/hero.jpg';
 import pokeBowlImage from '../assets/images/poke-bowl.jpg';
@@ -14,6 +14,10 @@ import gallery1 from '../assets/images/gallery-1.jpg';
 import gallery2 from '../assets/images/gallery-2.jpg';
 import gallery3 from '../assets/images/gallery-3.jpg';
 import gallery4 from '../assets/images/gallery-4.jpg';
+
+// Preload the AVIF hero — matches the largest <source> below.
+// Browsers without AVIF support ignore the preload and use the picture's WebP fallback.
+const heroPreload = await getImage({ src: heroImage, format: 'avif', width: 1920 });
 ---
 
 <BaseLayout
@@ -21,6 +25,8 @@ import gallery4 from '../assets/images/gallery-4.jpg';
   description="Savor authentic Japanese street flavors at Ichiban, The Historic Village, 17th Ave West, Tauranga South. Enjoy poke bowls, donburi, and more. Visit today!"
   ogUrl="https://loveichiban.co.nz/"
   keywords="Ichiban, Japanese Street Food, Authentic Japanese Food, Poke Bowls, Donburi, Tauranga, Mount Maunganui, Food Truck, Catering"
+  preloadImage={heroPreload.src}
+  preloadImageType="image/avif"
 >
   <Header currentPage="/" />
   <MobileMenu currentPage="/" />
@@ -28,13 +34,15 @@ import gallery4 from '../assets/images/gallery-4.jpg';
   <!-- Hero Section -->
   <section class="hero" id="hero">
     <div class="hero-bg">
-      <Image
+      <Picture
         src={heroImage}
+        formats={['avif', 'webp']}
         alt="Hero background"
         class="hero-bg-image"
         loading="eager"
         widths={[640, 1024, 1920]}
         sizes="100vw"
+        pictureAttributes={{ class: 'hero-bg-picture' }}
       />
     </div>
     <div class="hero-content">
@@ -93,12 +101,12 @@ import gallery4 from '../assets/images/gallery-4.jpg';
   <!-- Gallery Section -->
   <section class="gallery-section" id="gallery">
     <div class="gallery-grid">
-      <Image src={gallery1} alt="Fresh poke bowl with salmon and avocado" loading="lazy" width={600} height={350} />
-      <Image src={gallery2} alt="Customer being served at Ichiban food truck" loading="lazy" width={600} height={350} />
-      <Image src={gallery3} alt="Ichiban food truck exterior with branding" loading="lazy" width={600} height={350} />
-      <Image src={gallery4} alt="Delicious donburi bowls close-up" loading="lazy" width={600} height={350} />
-      <Image src={pokeBowlImage} alt="Poke bowl with fresh ingredients" loading="lazy" width={600} height={350} />
-      <Image src={cateringImage} alt="Variety of Japanese dishes" loading="lazy" width={600} height={350} />
+      <Picture src={gallery1} formats={['avif', 'webp']} alt="Fresh poke bowl with salmon and avocado" loading="lazy" widths={[400, 600, 800]} sizes="(max-width: 768px) 50vw, 33vw" />
+      <Picture src={gallery2} formats={['avif', 'webp']} alt="Customer being served at Ichiban food truck" loading="lazy" widths={[400, 600, 800]} sizes="(max-width: 768px) 50vw, 33vw" />
+      <Picture src={gallery3} formats={['avif', 'webp']} alt="Ichiban food truck exterior with branding" loading="lazy" widths={[400, 600, 800]} sizes="(max-width: 768px) 50vw, 33vw" />
+      <Picture src={gallery4} formats={['avif', 'webp']} alt="Delicious donburi bowls close-up" loading="lazy" widths={[400, 600, 800]} sizes="(max-width: 768px) 50vw, 33vw" />
+      <Picture src={pokeBowlImage} formats={['avif', 'webp']} alt="Poke bowl with fresh ingredients" loading="lazy" widths={[400, 600, 800]} sizes="(max-width: 768px) 50vw, 33vw" />
+      <Picture src={cateringImage} formats={['avif', 'webp']} alt="Variety of Japanese dishes" loading="lazy" widths={[400, 600, 800]} sizes="(max-width: 768px) 50vw, 33vw" />
     </div>
   </section>
 
@@ -123,6 +131,10 @@ import gallery4 from '../assets/images/gallery-4.jpg';
 </BaseLayout>
 
 <style>
+  /* <Picture> wraps the <img> in a <picture>; collapse it so positioning still works. */
+  .hero-bg-picture {
+    display: contents;
+  }
   .hero-bg-image {
     position: absolute;
     inset: 0;

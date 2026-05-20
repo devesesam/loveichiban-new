@@ -16,3 +16,7 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+.claude/
+
+# Intermediate / scratch (image backups, etc.)
+.tmp/

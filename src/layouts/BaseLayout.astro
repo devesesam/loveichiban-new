@@ -7,9 +7,11 @@ interface Props {
   ogUrl: string;
   ogTitle?: string;
   keywords?: string;
+  preloadImage?: string;
+  preloadImageType?: string;
 }
 
-const { title, description, ogUrl, ogTitle, keywords } = Astro.props;
+const { title, description, ogUrl, ogTitle, keywords, preloadImage, preloadImageType } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -25,6 +27,14 @@ const { title, description, ogUrl, ogTitle, keywords } = Astro.props;
   <meta property="og:type" content="website">
   <meta property="og:url" content={ogUrl}>
   <link rel="icon" href="/favicon.png" type="image/png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+
+  {preloadImage && (
+    <link rel="preload" as="image" href={preloadImage} type={preloadImageType} fetchpriority="high" />
+  )}
 </head>
 <body>
   <slot />
