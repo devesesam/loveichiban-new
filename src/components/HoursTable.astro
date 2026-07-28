@@ -1,0 +1,57 @@
+---
+import { SITE } from '../data/site';
+---
+
+{
+  SITE.hours.length > 0 ? (
+    <table class="hours-table">
+      <caption class="visually-hidden">Opening hours</caption>
+      <tbody>
+        {SITE.hours.map((h) => (
+          <tr>
+            <th scope="row">{h.days}</th>
+            <td>
+              {h.open} – {h.close}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  ) : (
+    <p class="hours-fallback">
+      <a href={SITE.phoneHref}>Call us on {SITE.phone}</a> for current opening hours.
+    </p>
+  )
+}
+
+<style>
+  .hours-table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .hours-table th,
+  .hours-table td {
+    text-align: left;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--color-line);
+    font-weight: 400;
+    color: var(--color-ink-soft);
+  }
+
+  .hours-table th {
+    font-weight: 600;
+    color: var(--color-ink);
+    padding-right: 2rem;
+  }
+
+  .hours-fallback {
+    color: var(--color-ink-soft);
+  }
+
+  .hours-fallback a {
+    color: var(--color-accent-strong);
+    font-weight: 600;
+  }
+</style>

@@ -1,0 +1,46 @@
+---
+// Standard page section: consistent rhythm, optional centered intro block.
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  heading?: string;
+  lede?: string;
+  warm?: boolean; // warm off-white background
+  narrow?: boolean; // narrow text container
+  class?: string;
+}
+
+const { id, eyebrow, heading, lede, warm = false, narrow = false, class: className } = Astro.props;
+---
+
+<section {id} class:list={['section', { 'section-warm': warm }, className]}>
+  <div class:list={['container', { 'container-narrow': narrow }]}>
+    {
+      (eyebrow || heading || lede) && (
+        <div class="section-intro fade-in">
+          {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+          {heading && <h2>{heading}</h2>}
+          {lede && <p class="lede">{lede}</p>}
+        </div>
+      )
+    }
+    <slot />
+  </div>
+</section>
+
+<style>
+  .section-intro {
+    max-width: 620px;
+    margin-inline: auto;
+    text-align: center;
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .section-intro .lede {
+    margin-top: 1rem;
+  }
+
+  .section-intro:only-child {
+    margin-bottom: 0;
+  }
+</style>

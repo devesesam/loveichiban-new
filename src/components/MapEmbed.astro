@@ -1,0 +1,27 @@
+---
+import { SITE } from '../data/site';
+---
+
+<div class="map-embed">
+  <iframe
+    src={SITE.mapsEmbedSrc}
+    loading="lazy"
+    allowfullscreen
+    referrerpolicy="no-referrer-when-downgrade"
+    title="Map — Ichiban Pokedon at The Historic Village, Tauranga"></iframe>
+</div>
+
+<style>
+  .map-embed {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .map-embed iframe {
+    width: 100%;
+    height: 100%;
+    min-height: 380px;
+    border: 0;
+  }
+</style>

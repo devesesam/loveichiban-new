@@ -1,0 +1,48 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SITE } from '../data/site';
+---
+
+<Layout
+  title="Thanks — we've got your message | Ichiban Pokedon"
+  description="Thanks for getting in touch with Ichiban Pokedon. We'll get back to you as soon as we can."
+>
+  <section class="thanks">
+    <div class="container container-narrow">
+      <span class="eyebrow">Message sent</span>
+      <h1>Thanks — we've got it!</h1>
+      <p class="lede">
+        We'll get back to you as soon as we can. In a hurry? Give us a call on{' '}
+        <a href={SITE.phoneHref}>{SITE.phone}</a>.
+      </p>
+      <div class="thanks-actions">
+        <a href="/" class="btn btn-primary">Back to home</a>
+        <a href="/menu" class="btn btn-outline">Browse the menu</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .thanks {
+    padding-block: clamp(5rem, 14vw, 9rem);
+    text-align: center;
+  }
+
+  .thanks .lede {
+    margin-top: 1.2rem;
+  }
+
+  .thanks .lede a {
+    color: var(--color-accent-strong);
+    font-weight: 600;
+  }
+
+  .thanks-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2.2rem;
+  }
+</style>

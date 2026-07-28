@@ -2,8 +2,17 @@
   command = "npm run build"
   publish = "dist"
 
+[functions]
+  directory = "netlify/functions"
+
 [build.environment]
   NODE_VERSION = "22"
+
+# Old route from the pre-redesign site — About now lives on the homepage.
+[[redirects]]
+  from = "/about-us"
+  to = "/"
+  status = 301
 
 # Astro emits content-hashed files under /_astro/ and /assets/.
 # These are safe to cache forever — any change to a file changes its hash.
@@ -22,8 +31,29 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Favicons and manifest are un-hashed — cache for a day.
+[[headers]]
+  for = "/favicon.ico"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
 [[headers]]
   for = "/favicon.png"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/apple-touch-icon.png"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/icon-*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/site.webmanifest"
   [headers.values]
     Cache-Control = "public, max-age=86400"
 
