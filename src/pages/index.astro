@@ -6,21 +6,17 @@ import BestSellerCard from '../components/BestSellerCard.astro';
 import ReviewsSection from '../components/ReviewsSection.astro';
 import ContactBlock from '../components/ContactBlock.astro';
 import MapEmbed from '../components/MapEmbed.astro';
+import '@fontsource/caveat/600.css';
 
-// PLACEHOLDER IMAGES — swap for Diego's Dropbox shots when they arrive:
-//   heroImage      → Japanese Fried Chicken Bowl hero shot (~2400×1600)
-//   jfcImage       → JFC bowl square (~1200×1200)
-//   salmonImage    → Salmon bowl square (~1200×1200)
-//   prawnsImage    → Crispy Prawns bowl square (~1200×1200) — no real photo exists yet
-//   cateringImage  → food truck at an event (~1600×1000)
-import heroImage from '../assets/images/hero.jpg';
-import jfcImage from '../assets/images/poke-bowl.jpg';
-import salmonImage from '../assets/images/gallery-2.jpg';
-import prawnsImage from '../assets/images/gallery-4.jpg';
+// Diego's photography (July 2026)
+import heroBowl from '../assets/images/hero-bowl.png'; // cutout chicken bowl, transparent bg
+import jfcImage from '../assets/images/chicken-bowl.jpg';
+import salmonImage from '../assets/images/salmon-bowl.jpg';
+import prawnsImage from '../assets/images/prawns-bowl.jpg';
 import cateringImage from '../assets/images/catering.jpg';
 
-// Preload the AVIF hero — matches the largest <source> below.
-const heroPreload = await getImage({ src: heroImage, format: 'avif', width: 1920 });
+// Preload the AVIF hero bowl — matches the largest <source> below.
+const heroPreload = await getImage({ src: heroBowl, format: 'avif', width: 853 });
 ---
 
 <Layout
@@ -29,26 +25,30 @@ const heroPreload = await getImage({ src: heroImage, format: 'avif', width: 1920
   preloadImage={heroPreload.src}
   preloadImageType="image/avif"
 >
-  <!-- Hero -->
+  <!-- Hero — white split layout per Diego's design -->
   <section class="hero">
-    <div class="hero-bg">
-      <Picture
-        src={heroImage}
-        formats={['avif', 'webp']}
-        alt="Japanese fried chicken bowl from Ichiban Pokedon"
-        class="hero-bg-image"
-        loading="eager"
-        widths={[640, 1024, 1920]}
-        sizes="100vw"
-        pictureAttributes={{ class: 'hero-bg-picture' }}
-      />
-    </div>
-    <div class="hero-content">
-      <h1>Fresh Japanese Poke &amp; Donburi</h1>
-      <p class="hero-sub">Fresh ingredients. Fast service. Dine in, takeaway and catering.</p>
-      <div class="hero-buttons">
-        <a href="/menu" class="btn btn-light">View Menu</a>
-        <a href="/catering" class="btn btn-ghost">Catering</a>
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <span class="hero-script" aria-hidden="true">Fresh Japanese</span>
+        <h1>Poke &amp; Donburi</h1>
+        <div class="hero-rule" aria-hidden="true"></div>
+        <p class="hero-sub">
+          Fresh ingredients.<br />Fast service.<br />Dine in, takeaway and catering.
+        </p>
+        <div class="hero-buttons">
+          <a href="/menu" class="btn btn-accent">View Menu</a>
+          <a href="/catering" class="btn btn-accent-outline">Catering</a>
+        </div>
+      </div>
+      <div class="hero-media">
+        <Picture
+          src={heroBowl}
+          formats={['avif', 'webp']}
+          alt="Japanese fried chicken bowl with avocado from Ichiban Pokedon"
+          loading="eager"
+          widths={[480, 700, 853]}
+          sizes="(max-width: 900px) 82vw, 620px"
+        />
       </div>
     </div>
   </section>
@@ -65,7 +65,7 @@ const heroPreload = await getImage({ src: heroImage, format: 'avif', width: 1920
         imageAlt="Japanese Fried Chicken bowl"
         name="Japanese Fried Chicken"
         description="Crispy, juicy karaage chicken over fresh rice"
-        price="From $18"
+        price="From $19"
         badge="Most Popular"
       />
       <BestSellerCard
@@ -73,14 +73,15 @@ const heroPreload = await getImage({ src: heroImage, format: 'avif', width: 1920
         imageAlt="Salmon poke bowl"
         name="Salmon"
         description="Fresh marinated salmon with vibrant toppings"
-        price="From $18"
+        price="From $21"
+        imagePosition="50% 82%"
       />
       <BestSellerCard
         image={prawnsImage}
         imageAlt="Crispy prawns bowl"
         name="Crispy Prawns"
         description="Lightly battered prawns with a golden crunch"
-        price="From $18"
+        price="From $19"
       />
     </div>
     <div class="bestseller-cta fade-in">
@@ -137,73 +138,114 @@ const heroPreload = await getImage({ src: heroImage, format: 'avif', width: 1920
 </Layout>
 
 <style>
-  /* --- Hero --- */
+  /* --- Hero: white split layout, cutout bowl right --- */
   .hero {
-    position: relative;
-    min-height: min(88vh, 820px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: var(--color-paper);
+    background: var(--color-paper);
     overflow: hidden;
   }
 
-  .hero-bg {
-    position: absolute;
-    inset: 0;
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    align-items: center;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    min-height: min(78vh, 720px);
+    padding-block: clamp(2rem, 5vw, 3.5rem);
   }
 
-  /* <Picture> wraps the <img> in a <picture>; collapse it so positioning works. */
-  .hero-bg :global(.hero-bg-picture) {
-    display: contents;
+  .hero-script {
+    display: block;
+    font-family: 'Caveat', cursive;
+    font-weight: 600;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    color: var(--color-accent-strong);
+    line-height: 1;
+    margin-bottom: 0.4rem;
   }
 
-  .hero-bg :global(.hero-bg-image) {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  .hero-copy h1 {
+    text-transform: uppercase;
+    font-size: clamp(2.75rem, 6.5vw, 4.75rem);
+    letter-spacing: -0.02em;
+    line-height: 1.02;
   }
 
-  .hero-bg::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(rgba(17, 17, 20, 0.35), rgba(17, 17, 20, 0.55));
-  }
-
-  .hero-content {
-    position: relative;
-    z-index: 1;
-    padding: var(--gutter);
-    max-width: 780px;
+  .hero-rule {
+    width: 64px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--color-accent);
+    margin-block: 1.4rem;
   }
 
   .hero-sub {
     font-size: var(--text-lede);
-    margin-top: 1.1rem;
-    opacity: 0.92;
+    color: var(--color-ink-soft);
+    line-height: 1.7;
   }
 
   .hero-buttons {
     display: flex;
     gap: 1rem;
-    justify-content: center;
     flex-wrap: wrap;
     margin-top: 2.2rem;
   }
 
-  .btn-ghost {
-    background: transparent;
+  .btn-accent {
+    background: var(--color-accent-strong);
     color: var(--color-paper);
-    border-color: var(--color-paper);
+    border-color: var(--color-accent-strong);
   }
 
-  .btn-ghost:hover {
-    background: var(--color-paper);
-    color: var(--color-ink);
+  .btn-accent:hover {
+    background: #b25a22;
+    border-color: #b25a22;
+  }
+
+  .btn-accent-outline {
+    background: transparent;
+    color: var(--color-accent-strong);
+    border-color: var(--color-accent-strong);
+  }
+
+  .btn-accent-outline:hover {
+    background: var(--color-accent-soft);
+  }
+
+  .hero-media {
+    display: flex;
+    justify-content: center;
+  }
+
+  .hero-media :global(img) {
+    width: min(100%, 620px);
+    height: auto;
+    filter: drop-shadow(0 24px 48px rgba(17, 17, 20, 0.18));
+  }
+
+  @media (max-width: 900px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+      text-align: center;
+      min-height: 0;
+    }
+
+    .hero-rule {
+      margin-inline: auto;
+    }
+
+    .hero-buttons {
+      justify-content: center;
+    }
+
+    .hero-media {
+      order: -1;
+      padding-top: 1rem;
+    }
+
+    .hero-media :global(img) {
+      width: min(78vw, 420px);
+    }
   }
 
   /* --- Best sellers --- */
