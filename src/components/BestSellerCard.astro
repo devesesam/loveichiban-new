@@ -9,9 +9,11 @@ interface Props {
   description?: string;
   price?: string;
   badge?: string;
+  /** CSS object-position for the square crop, e.g. "50% 85%" to favour the lower part of a portrait shot */
+  imagePosition?: string;
 }
 
-const { image, imageAlt, name, description, price, badge } = Astro.props;
+const { image, imageAlt, name, description, price, badge, imagePosition } = Astro.props;
 ---
 
 <article class="bestseller fade-in">
@@ -23,6 +25,7 @@ const { image, imageAlt, name, description, price, badge } = Astro.props;
       loading="lazy"
       widths={[480, 720, 960]}
       sizes="(max-width: 720px) 92vw, 380px"
+      style={imagePosition && `object-position: ${imagePosition}`}
     />
     {badge && <span class="bestseller-badge">⭐ {badge}</span>}
   </div>
