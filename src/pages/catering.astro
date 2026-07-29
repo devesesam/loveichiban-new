@@ -1,0 +1,251 @@
+---
+import { Picture } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import Section from '../components/Section.astro';
+
+// PLACEHOLDER IMAGES — swap for Diego's catering/food-truck shots when they arrive.
+import truckImage from '../assets/images/catering.jpg';
+import shopImage from '../assets/images/shop.jpg';
+import gallery1 from '../assets/images/gallery-1.jpg';
+import gallery3 from '../assets/images/gallery-3.jpg';
+
+const offers = [
+  {
+    title: 'Corporate Catering',
+    text: 'Feed the whole team with fresh, generous Japanese bowls — delivered ready to serve or served live from our truck. Great for office lunches, conferences and client events across Tauranga and the Bay of Plenty.',
+    image: shopImage,
+    imageAlt: 'Rows of fresh Ichiban bowls being prepared for a catered event',
+  },
+  {
+    title: 'Weddings',
+    text: 'Give your guests something memorable. Our food truck brings vibrant Japanese street-food energy to your venue, with a menu tailored to your day.',
+    image: gallery3,
+    imageAlt: 'An Ichiban team member serving a guest with a smile',
+  },
+  {
+    title: 'Private Functions',
+    text: 'Birthdays, anniversaries, family gatherings — we cater private events of all sizes with fresh poke and donburi everyone can enjoy.',
+    image: gallery1,
+    imageAlt: 'Guests enjoying food at the Ichiban truck',
+  },
+  {
+    title: 'Festivals & Events',
+    text: "Running a festival or public event? Ichiban's truck serves fast, fresh and consistent — built for big crowds and hungry queues.",
+    image: truckImage,
+    imageAlt: 'The Ichiban food truck at a festival',
+  },
+];
+---
+
+<Layout
+  title="Japanese Catering Tauranga | Corporate, Weddings & Events | Ichiban"
+  description="Japanese catering in Tauranga for corporate events, weddings, private functions and festivals. Fresh poke and donburi from the Ichiban food truck. Enquire today."
+>
+  <!-- Catering hero -->
+  <section class="catering-hero">
+    <div class="catering-hero-bg">
+      <Picture
+        src={truckImage}
+        formats={['avif', 'webp']}
+        alt="The Ichiban food truck"
+        loading="eager"
+        widths={[640, 1024, 1920]}
+        sizes="100vw"
+        pictureAttributes={{ class: 'catering-hero-picture' }}
+      />
+    </div>
+    <div class="catering-hero-content">
+      <h1>Catering for every occasion</h1>
+      <p class="hero-sub">
+        Fresh Japanese poke &amp; donburi for weddings, corporate events, private functions and
+        festivals.
+      </p>
+      <a href="#enquire" class="btn btn-light">Make an Enquiry</a>
+    </div>
+  </section>
+
+  <!-- Offerings -->
+  <Section
+    eyebrow="What We Cater"
+    heading="From office lunches to wedding days"
+    lede="Every event gets the same fresh ingredients, generous portions and fast, friendly service."
+  >
+    <div class="offers">
+      {
+        offers.map((offer, i) => (
+          <div class:list={['offer', 'fade-in', { reverse: i % 2 === 1 }]}>
+            <div class="offer-media">
+              <Picture
+                src={offer.image}
+                formats={['avif', 'webp']}
+                alt={offer.imageAlt}
+                loading="lazy"
+                widths={[560, 840, 1120]}
+                sizes="(max-width: 900px) 92vw, 520px"
+              />
+            </div>
+            <div class="offer-copy">
+              <h3>{offer.title}</h3>
+              <p>{offer.text}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <!-- Enquiry form -->
+  <Section
+    id="enquire"
+    eyebrow="Get In Touch"
+    heading="Catering enquiry"
+    lede="Tell us about your event and we'll get back to you with options and pricing."
+    warm
+  >
+    <form
+      name="catering"
+      method="POST"
+      action="/thank-you"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      class="form catering-form fade-in"
+    >
+      <input type="hidden" name="form-name" value="catering" />
+      <p class="form-trap">
+        <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+      </p>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="cat-name">Name</label>
+          <input id="cat-name" type="text" name="name" required autocomplete="name" />
+        </div>
+        <div class="form-field">
+          <label for="cat-email">Email</label>
+          <input id="cat-email" type="email" name="email" required autocomplete="email" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="cat-phone">Phone</label>
+          <input id="cat-phone" type="tel" name="phone" autocomplete="tel" />
+        </div>
+        <div class="form-field">
+          <label for="cat-date">Event date</label>
+          <input id="cat-date" type="date" name="event-date" />
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="cat-guests">Number of guests</label>
+        <input id="cat-guests" type="number" name="guests" min="1" inputmode="numeric" />
+      </div>
+      <div class="form-field">
+        <label for="cat-message">Message</label>
+        <textarea
+          id="cat-message"
+          name="message"
+          placeholder="Tell us about your event — venue, timing, anything we should know."
+          required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Send Enquiry</button>
+    </form>
+  </Section>
+</Layout>
+
+<style>
+  .catering-hero {
+    position: relative;
+    min-height: min(60vh, 560px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--color-paper);
+    overflow: hidden;
+  }
+
+  .catering-hero-bg {
+    position: absolute;
+    inset: 0;
+  }
+
+  .catering-hero-bg :global(.catering-hero-picture) {
+    display: contents;
+  }
+
+  .catering-hero-bg :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .catering-hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(17, 17, 20, 0.4), rgba(17, 17, 20, 0.6));
+  }
+
+  .catering-hero-content {
+    position: relative;
+    z-index: 1;
+    padding: var(--gutter);
+    max-width: 720px;
+  }
+
+  .hero-sub {
+    font-size: var(--text-lede);
+    margin-block: 1.1rem 2rem;
+    opacity: 0.92;
+  }
+
+  .offers {
+    display: grid;
+    gap: clamp(3rem, 7vw, 5rem);
+  }
+
+  .offer {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: clamp(1.75rem, 4vw, 4rem);
+    align-items: center;
+  }
+
+  .offer.reverse .offer-media {
+    order: 2;
+  }
+
+  .offer-media :global(img) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .offer-copy h3 {
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+    margin-bottom: 0.7rem;
+  }
+
+  .offer-copy p {
+    color: var(--color-ink-soft);
+  }
+
+  .catering-form {
+    max-width: 640px;
+    margin-inline: auto;
+  }
+
+  @media (max-width: 900px) {
+    .offer {
+      grid-template-columns: 1fr;
+    }
+
+    .offer.reverse .offer-media {
+      order: 0;
+    }
+  }
+</style>

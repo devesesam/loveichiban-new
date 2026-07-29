@@ -1,0 +1,46 @@
+---
+import type { MenuCategory } from '../data/menu';
+import MenuItemRow from './MenuItem.astro';
+
+interface Props {
+  category: MenuCategory;
+}
+
+const { category } = Astro.props;
+---
+
+<section class="menu-category fade-in" id={category.id} aria-labelledby={`${category.id}-heading`}>
+  <div class="menu-category-head">
+    <h2 id={`${category.id}-heading`}>{category.title}</h2>
+    {category.note && <p class="menu-note">{category.note}</p>}
+  </div>
+  <div class="menu-items">
+    {category.items.map((item) => <MenuItemRow item={item} />)}
+  </div>
+</section>
+
+<style>
+  .menu-category {
+    scroll-margin-top: calc(var(--header-height) + 4rem);
+    padding-block: clamp(1.75rem, 4vw, 2.75rem);
+  }
+
+  .menu-category + .menu-category {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .menu-category-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+  }
+
+  .menu-note {
+    color: var(--color-accent-strong);
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+</style>

@@ -1,0 +1,39 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Page not found | Ichiban Pokedon"
+  description="That page doesn't exist — head back to Ichiban Pokedon's homepage for fresh Japanese poke and donburi in Tauranga."
+>
+  <section class="not-found">
+    <div class="container container-narrow">
+      <span class="eyebrow">404</span>
+      <h1>This page has gone walkabout</h1>
+      <p class="lede">The bowls, thankfully, are right where you left them.</p>
+      <div class="not-found-actions">
+        <a href="/" class="btn btn-primary">Back to home</a>
+        <a href="/menu" class="btn btn-outline">View the menu</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .not-found {
+    padding-block: clamp(5rem, 14vw, 9rem);
+    text-align: center;
+  }
+
+  .not-found .lede {
+    margin-top: 1.2rem;
+  }
+
+  .not-found-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2.2rem;
+  }
+</style>

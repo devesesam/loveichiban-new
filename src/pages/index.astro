@@ -1,43 +1,41 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/Header.astro';
-import MobileMenu from '../components/MobileMenu.astro';
-import Footer from '../components/Footer.astro';
-import ServiceCard from '../components/ServiceCard.astro';
 import { Picture, getImage } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import Section from '../components/Section.astro';
+import BestSellerCard from '../components/BestSellerCard.astro';
+import ReviewsSection from '../components/ReviewsSection.astro';
+import ContactBlock from '../components/ContactBlock.astro';
+import MapEmbed from '../components/MapEmbed.astro';
 
+// PLACEHOLDER IMAGES — swap for Diego's Dropbox shots when they arrive:
+//   heroImage      → Japanese Fried Chicken Bowl hero shot (~2400×1600)
+//   jfcImage       → JFC bowl square (~1200×1200)
+//   salmonImage    → Salmon bowl square (~1200×1200)
+//   prawnsImage    → Crispy Prawns bowl square (~1200×1200) — no real photo exists yet
+//   cateringImage  → food truck at an event (~1600×1000)
 import heroImage from '../assets/images/hero.jpg';
-import pokeBowlImage from '../assets/images/poke-bowl.jpg';
+import jfcImage from '../assets/images/poke-bowl.jpg';
+import salmonImage from '../assets/images/gallery-2.jpg';
+import prawnsImage from '../assets/images/gallery-4.jpg';
 import cateringImage from '../assets/images/catering.jpg';
-import shopImage from '../assets/images/shop.jpg';
-import gallery1 from '../assets/images/gallery-1.jpg';
-import gallery2 from '../assets/images/gallery-2.jpg';
-import gallery3 from '../assets/images/gallery-3.jpg';
-import gallery4 from '../assets/images/gallery-4.jpg';
 
 // Preload the AVIF hero — matches the largest <source> below.
-// Browsers without AVIF support ignore the preload and use the picture's WebP fallback.
 const heroPreload = await getImage({ src: heroImage, format: 'avif', width: 1920 });
 ---
 
-<BaseLayout
-  title="Ichiban: Authentic Japanese Street Eats in Mount Maunganui"
-  description="Savor authentic Japanese street flavors at Ichiban, The Historic Village, 17th Ave West, Tauranga South. Enjoy poke bowls, donburi, and more. Visit today!"
-  ogUrl="https://loveichiban.co.nz/"
-  keywords="Ichiban, Japanese Street Food, Authentic Japanese Food, Poke Bowls, Donburi, Tauranga, Mount Maunganui, Food Truck, Catering"
+<Layout
+  title="Ichiban Pokedon | Japanese Poke Bowls & Donburi in Tauranga"
+  description="Fresh Japanese poke bowls and donburi made daily at The Historic Village, Tauranga. Dine in, takeaway and catering for weddings, corporate and private events."
   preloadImage={heroPreload.src}
   preloadImageType="image/avif"
 >
-  <Header currentPage="/" />
-  <MobileMenu currentPage="/" />
-
-  <!-- Hero Section -->
-  <section class="hero" id="hero">
+  <!-- Hero -->
+  <section class="hero">
     <div class="hero-bg">
       <Picture
         src={heroImage}
         formats={['avif', 'webp']}
-        alt="Hero background"
+        alt="Japanese fried chicken bowl from Ichiban Pokedon"
         class="hero-bg-image"
         loading="eager"
         widths={[640, 1024, 1920]}
@@ -46,101 +44,229 @@ const heroPreload = await getImage({ src: heroImage, format: 'avif', width: 1920
       />
     </div>
     <div class="hero-content">
-      <h1>Poke Bowls with a Japanese Twist!</h1>
+      <h1>Fresh Japanese Poke &amp; Donburi</h1>
+      <p class="hero-sub">Fresh ingredients. Fast service. Dine in, takeaway and catering.</p>
       <div class="hero-buttons">
-        <a href="/menu" class="btn btn-primary">Our Menu</a>
-        <a href="/about-us" class="btn btn-outline">Find Out More</a>
+        <a href="/menu" class="btn btn-light">View Menu</a>
+        <a href="/catering" class="btn btn-ghost">Catering</a>
       </div>
     </div>
   </section>
 
-  <!-- Introduction Section -->
-  <section class="intro-section fade-in" id="about-intro">
-    <div class="container">
-      <h2>Authentic Japanese Street Food by Ichiban</h2>
-      <p>At Ichiban, we bring the vibrant flavors of Japan's street markets to the heart of BOP, New Zealand. Our food truck serves up a delicious selection of authentic Japanese dishes, crafted with fresh ingredients and traditional techniques. Whether you are craving one of our savory bowls or refreshing cold drinks, our menu offers a combination of taste and fresh ingredients for everyone to enjoy.</p>
-      <br>
-      <p>Join us for a unique culinary experience that combines the best of Japanese cuisine with the welcoming spirit of New Zealand.</p>
+  <!-- Best Sellers -->
+  <Section
+    id="best-sellers"
+    eyebrow="Best Sellers"
+    heading="The bowls everyone comes back for"
+  >
+    <div class="bestseller-grid">
+      <BestSellerCard
+        image={jfcImage}
+        imageAlt="Japanese Fried Chicken bowl"
+        name="Japanese Fried Chicken"
+        description="Crispy, juicy karaage chicken over fresh rice"
+        price="From $18"
+        badge="Most Popular"
+      />
+      <BestSellerCard
+        image={salmonImage}
+        imageAlt="Salmon poke bowl"
+        name="Salmon"
+        description="Fresh marinated salmon with vibrant toppings"
+        price="From $18"
+      />
+      <BestSellerCard
+        image={prawnsImage}
+        imageAlt="Crispy prawns bowl"
+        name="Crispy Prawns"
+        description="Lightly battered prawns with a golden crunch"
+        price="From $18"
+      />
     </div>
-  </section>
+    <div class="bestseller-cta fade-in">
+      <a href="/menu" class="btn btn-outline">See the full menu</a>
+    </div>
+  </Section>
 
-  <!-- Services Section -->
-  <section class="services-section" id="services">
+  <!-- About -->
+  <Section id="about" eyebrow="About Ichiban" narrow>
+    <p class="about-copy fade-in">
+      ICHIBAN serves fresh Japanese poke and donburi bowls made daily using quality ingredients
+      and bold flavours. Whether you're grabbing lunch or catering your next event, we focus on
+      fresh food, generous portions and fast service.
+    </p>
+  </Section>
+
+  <!-- Google Reviews -->
+  <ReviewsSection />
+
+  <!-- Catering preview -->
+  <section class="section" id="catering-preview">
     <div class="container">
-      <h2 class="fade-in">Ichiban On The Road</h2>
-      <div class="services-grid">
-        <ServiceCard
-          image={pokeBowlImage}
-          imageAlt="Poke Bowls and Donburi by Ichiban"
-          title="Poke Bowls and Donburi"
-          description="Savour the vibrant flavors of street food with Ichiban in Tauranga! Discover the delicious range of Poke Bowls and Donburi we have for you."
-          linkHref="/menu"
-          linkText="See Our Food"
-        />
-        <ServiceCard
-          image={cateringImage}
-          imageAlt="Ichiban Catering Services"
-          title="Catering Services"
-          description="Bring our flavors to your event with our catering service. Enjoy a range of authentic street food dishes from our Ichiban Japanese Street Food Truck, perfect for weddings, celebrations, and corporate events."
-          linkHref="mailto:talktoichiban@hotmail.com"
-          linkText="Book Now"
-        />
-        <ServiceCard
-          image={shopImage}
-          imageAlt="Visit Ichiban Shop at The Historic Village"
-          title="Visit Our Shop"
-          description="Our new shop is open at The Historic Village in Tauranga. Serving up bold Japanese street food in flavour-packed donburi, and fresh poke bowls with a twist. Plus, great coffee to top it all off!"
-          linkHref="https://www.facebook.com/ichiban.caravan/"
-          linkText="Come Find Us"
-          linkExternal={true}
-        />
+      <div class="catering-preview fade-in">
+        <div class="catering-media">
+          <Picture
+            src={cateringImage}
+            formats={['avif', 'webp']}
+            alt="The Ichiban food truck serving at an event"
+            loading="lazy"
+            widths={[640, 960, 1280]}
+            sizes="(max-width: 900px) 92vw, 560px"
+          />
+        </div>
+        <div class="catering-copy">
+          <span class="eyebrow">Catering</span>
+          <h2>Bring Ichiban to your next event</h2>
+          <p class="lede">
+            From weddings and corporate functions to festivals and private parties — our food
+            truck and catering team serve fresh Japanese bowls your guests will remember.
+          </p>
+          <a href="/catering" class="btn btn-primary">Learn More</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Gallery Section -->
-  <section class="gallery-section" id="gallery">
-    <div class="gallery-grid">
-      <Picture src={gallery1} formats={['avif', 'webp']} alt="Fresh poke bowl with salmon and avocado" loading="lazy" widths={[400, 600, 800]} sizes="(max-width: 768px) 50vw, 33vw" />
-      <Picture src={gallery2} formats={['avif', 'webp']} alt="Customer being served at Ichiban food truck" loading="lazy" widths={[400, 600, 800]} sizes="(max-width: 768px) 50vw, 33vw" />
-      <Picture src={gallery3} formats={['avif', 'webp']} alt="Ichiban food truck exterior with branding" loading="lazy" widths={[400, 600, 800]} sizes="(max-width: 768px) 50vw, 33vw" />
-      <Picture src={gallery4} formats={['avif', 'webp']} alt="Delicious donburi bowls close-up" loading="lazy" widths={[400, 600, 800]} sizes="(max-width: 768px) 50vw, 33vw" />
-      <Picture src={pokeBowlImage} formats={['avif', 'webp']} alt="Poke bowl with fresh ingredients" loading="lazy" widths={[400, 600, 800]} sizes="(max-width: 768px) 50vw, 33vw" />
-      <Picture src={cateringImage} formats={['avif', 'webp']} alt="Variety of Japanese dishes" loading="lazy" widths={[400, 600, 800]} sizes="(max-width: 768px) 50vw, 33vw" />
+  <!-- Visit Us -->
+  <Section id="visit" eyebrow="Visit Us" heading="Find us at The Historic Village" warm>
+    <div class="visit-grid fade-in">
+      <MapEmbed />
+      <ContactBlock />
     </div>
-  </section>
-
-  <!-- Location Section -->
-  <section class="location-section" id="location">
-    <div class="location-info fade-in">
-      <h2>Location</h2>
-      <p>The Historic Village, 17th Ave West, Tauranga South, Tauranga</p>
-    </div>
-    <div class="map-container">
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3166.5!2d176.129!3d-37.709!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6d6e7740b8a5b8b1%3A0x2a8f4e6c1b4d5e7f!2sThe%20Historic%20Village!5e0!3m2!1sen!2snz!4v1700000000000!5m2!1sen!2snz"
-        allowfullscreen=""
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-        title="Ichiban Location - The Historic Village, Tauranga">
-      </iframe>
-    </div>
-  </section>
-
-  <Footer />
-</BaseLayout>
+  </Section>
+</Layout>
 
 <style>
-  /* <Picture> wraps the <img> in a <picture>; collapse it so positioning still works. */
-  .hero-bg-picture {
+  /* --- Hero --- */
+  .hero {
+    position: relative;
+    min-height: min(88vh, 820px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--color-paper);
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* <Picture> wraps the <img> in a <picture>; collapse it so positioning works. */
+  .hero-bg :global(.hero-bg-picture) {
     display: contents;
   }
-  .hero-bg-image {
+
+  .hero-bg :global(.hero-bg-image) {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: -1;
+  }
+
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(17, 17, 20, 0.35), rgba(17, 17, 20, 0.55));
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    padding: var(--gutter);
+    max-width: 780px;
+  }
+
+  .hero-sub {
+    font-size: var(--text-lede);
+    margin-top: 1.1rem;
+    opacity: 0.92;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2.2rem;
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-paper);
+    border-color: var(--color-paper);
+  }
+
+  .btn-ghost:hover {
+    background: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  /* --- Best sellers --- */
+  .bestseller-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  .bestseller-cta {
+    text-align: center;
+    margin-top: clamp(2rem, 4vw, 3rem);
+  }
+
+  /* --- About --- */
+  #about :global(.section-intro) {
+    margin-bottom: 1rem;
+  }
+
+  .about-copy {
+    font-size: clamp(1.15rem, 2vw, 1.45rem);
+    line-height: 1.7;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  /* --- Catering preview --- */
+  .catering-preview {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+
+  .catering-media :global(img) {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .catering-copy .lede {
+    margin-block: 1rem 1.8rem;
+  }
+
+  /* --- Visit us --- */
+  .visit-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .bestseller-grid {
+      grid-template-columns: 1fr;
+      max-width: 440px;
+      margin-inline: auto;
+    }
+
+    .catering-preview,
+    .visit-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

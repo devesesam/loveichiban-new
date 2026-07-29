@@ -1,0 +1,64 @@
+---
+import { SITE, formatAddress } from '../data/site';
+import SocialLinks from './SocialLinks.astro';
+import HoursTable from './HoursTable.astro';
+
+interface Props {
+  showHours?: boolean;
+}
+
+const { showHours = true } = Astro.props;
+---
+
+<div class="contact-block">
+  <div class="contact-item">
+    <h3>Address</h3>
+    <p>
+      <a href={SITE.mapsLink} target="_blank" rel="noopener noreferrer">{formatAddress()}</a>
+    </p>
+  </div>
+  <div class="contact-item">
+    <h3>Phone</h3>
+    <p><a href={SITE.phoneHref}>{SITE.phone}</a></p>
+  </div>
+  <div class="contact-item">
+    <h3>Email</h3>
+    <p><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+  </div>
+  {
+    showHours && (
+      <div class="contact-item">
+        <h3>Hours</h3>
+        <HoursTable />
+      </div>
+    )
+  }
+  <div class="contact-item">
+    <h3>Follow us</h3>
+    <SocialLinks />
+  </div>
+</div>
+
+<style>
+  .contact-block {
+    display: grid;
+    gap: 1.6rem;
+  }
+
+  .contact-item h3 {
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-accent-strong);
+    margin-bottom: 0.4rem;
+  }
+
+  .contact-item p,
+  .contact-item a {
+    color: var(--color-ink-soft);
+  }
+
+  .contact-item a:hover {
+    color: var(--color-accent-strong);
+  }
+</style>
