@@ -42,19 +42,27 @@ function stars(n: number): string {
           </span>
           <span class="reviews-count">{userRatingCount} Google reviews</span>
         </div>
-        <div class="reviews-track" id="reviewsTrack" tabindex="0" aria-label="Customer reviews carousel">
-          {reviews.map((review) => (
-            <blockquote class="review-card">
-              <span class="review-stars" aria-label={`${review.rating} out of 5 stars`}>
-                {stars(review.rating)}
-              </span>
-              <p>{review.text}</p>
-              <footer>
-                <cite>{review.author}</cite>
-                <span class="review-time">{review.relativeTime}</span>
-              </footer>
-            </blockquote>
-          ))}
+        <div class="reviews-carousel">
+          <button class="reviews-arrow" id="reviewsPrev" aria-label="Previous review" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 4.5 8 12l7.5 7.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </button>
+          <div class="reviews-track" id="reviewsTrack" tabindex="0" aria-label="Customer reviews carousel">
+            {reviews.map((review) => (
+              <blockquote class="review-card">
+                <span class="review-stars" aria-label={`${review.rating} out of 5 stars`}>
+                  {stars(review.rating)}
+                </span>
+                <p>{review.text}</p>
+                <footer>
+                  <cite>{review.author}</cite>
+                  <span class="review-time">{review.relativeTime}</span>
+                </footer>
+              </blockquote>
+            ))}
+          </div>
+          <button class="reviews-arrow" id="reviewsNext" aria-label="Next review" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 4.5 16 12l-7.5 7.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </button>
         </div>
         <div class="reviews-dots" id="reviewsDots" aria-hidden="true" />
         <p class="reviews-attribution">
@@ -109,7 +117,48 @@ function stars(n: number): string {
     font-weight: 600;
   }
 
+  .reviews-carousel {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .reviews-arrow {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-line);
+    background: var(--color-paper);
+    color: var(--color-ink);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color var(--transition), color var(--transition),
+      background var(--transition);
+  }
+
+  .reviews-arrow svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .reviews-arrow:hover {
+    border-color: var(--color-accent);
+    background: var(--color-accent-soft);
+    color: var(--color-accent-strong);
+  }
+
+  @media (max-width: 640px) {
+    /* On touch screens the track itself swipes; arrows just eat width */
+    .reviews-arrow {
+      display: none;
+    }
+  }
+
   .reviews-track {
+    flex: 1;
+    min-width: 0;
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: min(420px, 86%);
@@ -202,25 +251,35 @@ function stars(n: number): string {
 </style>
 
 <script>
-  // Dot indicators + gentle auto-advance for the reviews carousel.
+  // Arrows, dot indicators and gentle auto-advance for the reviews carousel.
+  // All movement scrolls ONLY the horizontal track (track.scrollTo) — never
+  // scrollIntoView, which would also scroll the page itself to the section.
   const track = document.getElementById('reviewsTrack');
   const dots = document.getElementById('reviewsDots');
+  const prevBtn = document.getElementById('reviewsPrev');
+  const nextBtn = document.getElementById('reviewsNext');
 
   if (track && dots) {
     const cards = Array.from(track.children) as HTMLElement[];
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    const goTo = (i: number) => {
+      const card = cards[(i + cards.length) % cards.length];
+      track.scrollTo({
+        left: card.offsetLeft - (track.clientWidth - card.offsetWidth) / 2,
+        behavior: reduceMotion ? 'auto' : 'smooth',
+      });
+    };
+
     cards.forEach((_, i) => {
       const dot = document.createElement('button');
-      dot.addEventListener('click', () => {
-        cards[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-      });
+      dot.addEventListener('click', () => goTo(i));
       dots.appendChild(dot);
     });
 
     const dotButtons = Array.from(dots.children) as HTMLButtonElement[];
 
-    const setActive = () => {
+    const activeIndex = () => {
       const center = track.scrollLeft + track.clientWidth / 2;
       let nearest = 0;
       let nearestDist = Infinity;
@@ -231,6 +290,11 @@ function stars(n: number): string {
           nearest = i;
         }
       });
+      return nearest;
+    };
+
+    const setActive = () => {
+      const nearest = activeIndex();
       dotButtons.forEach((d, i) => d.classList.toggle('active', i === nearest));
       return nearest;
     };
@@ -238,17 +302,29 @@ function stars(n: number): string {
     track.addEventListener('scroll', setActive, { passive: true });
     setActive();
 
+    prevBtn?.addEventListener('click', () => goTo(activeIndex() - 1));
+    nextBtn?.addEventListener('click', () => goTo(activeIndex() + 1));
+
     if (!reduceMotion && cards.length > 1) {
       let paused = false;
+      let inView = false;
+
       track.addEventListener('pointerenter', () => (paused = true));
       track.addEventListener('pointerleave', () => (paused = false));
       track.addEventListener('focusin', () => (paused = true));
       track.addEventListener('focusout', () => (paused = false));
 
+      // Only auto-advance while the carousel is actually on screen.
+      new IntersectionObserver(
+        (entries) => {
+          inView = entries[0]?.isIntersecting ?? false;
+        },
+        { threshold: 0.3 }
+      ).observe(track);
+
       setInterval(() => {
-        if (paused || document.hidden) return;
-        const next = (setActive() + 1) % cards.length;
-        cards[next].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        if (paused || !inView || document.hidden) return;
+        goTo(activeIndex() + 1);
       }, 6000);
     }
   }
