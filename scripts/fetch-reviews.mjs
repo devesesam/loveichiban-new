@@ -20,8 +20,8 @@
 import { writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 
-// PLACEHOLDER: set the real Place ID here once looked up (see header comment).
-const PLACE_ID = process.env.GOOGLE_PLACE_ID ?? '';
+// Ichiban Poke Bowl & Japanese Donburi — The Historic Village, Tauranga
+const PLACE_ID = process.env.GOOGLE_PLACE_ID ?? 'ChIJAfLvPZRLPyUR0ZKO36dMLNg';
 const API_KEY = process.env.GOOGLE_PLACES_API_KEY;
 
 const OUT_FILE = fileURLToPath(new URL('../src/data/reviews.json', import.meta.url));

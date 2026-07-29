@@ -1,7 +1,38 @@
 {
-  "placeholder": true,
-  "rating": null,
-  "userRatingCount": null,
-  "fetchedAt": null,
-  "reviews": []
+  "placeholder": false,
+  "rating": 4.9,
+  "userRatingCount": 22,
+  "fetchedAt": "2026-07-29T00:07:35.510Z",
+  "reviews": [
+    {
+      "author": "Rochelle",
+      "rating": 5,
+      "text": "Great vibe here. Authentic Japanese flavours with incredible sauces. I had the Fried chicken bowl with spicy mayo (a hint of chipotle) served on a bed of fresh, crunchy salad and edamame beans. Chicken was super juicy and crunchy all at the same time.  Medium portions are very…",
+      "relativeTime": "4 months ago"
+    },
+    {
+      "author": "Jo Weir",
+      "rating": 5,
+      "text": "Fresh and delicious poke bowls served with a smile. I had tuna sashimi in mine, with rice, veges and lots of tasty, crunchy ingredients and there are different sauces to try.\nHave a look next door in the Artist Window Gallery while you wait for your meal to be prepared. Cool…",
+      "relativeTime": "a year ago"
+    },
+    {
+      "author": "Eranga Athukorala",
+      "rating": 4,
+      "text": "Location\nThe Historic Village, 17th Ave West, Tauranga South, Tauranga\nJapanese street food  serving authentic and mouth-watering Japanese delights right on the street!",
+      "relativeTime": "a year ago"
+    },
+    {
+      "author": "Vinicius Dos Anjos",
+      "rating": 5,
+      "text": "Amazing poke bowl, ingredients were very fresh. Great customer service too!",
+      "relativeTime": "2 months ago"
+    },
+    {
+      "author": "Judith Lambie",
+      "rating": 5,
+      "text": "Loved the food. Great flavour. We enjoyed the chicken and the calamari dishes. Medium size generous and we were very full. Will definitely be back to try the other flavours.",
+      "relativeTime": "9 months ago"
+    }
+  ]
 }
