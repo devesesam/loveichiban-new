@@ -7,6 +7,10 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  # A Google Place ID is a public identifier (it's in every Maps URL), not a
+  # credential — exclude it from Netlify secrets scanning. The actual secrets
+  # (GOOGLE_PLACES_API_KEY, RESEND_API_KEY) are never in the repo or build output.
+  SECRETS_SCAN_OMIT_KEYS = "GOOGLE_PLACE_ID"
 
 # Old route from the pre-redesign site — About now lives on the homepage.
 [[redirects]]
