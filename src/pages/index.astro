@@ -10,27 +10,29 @@ import '@fontsource/caveat/600.css';
 
 // Diego's photography (July 2026)
 import heroBowl from '../assets/images/hero-bowl.png'; // cutout chicken bowl, transparent bg
+import muralImage from '../assets/images/mural.png'; // shop wall mural, used as a faint hero wash
 import jfcImage from '../assets/images/chicken-bowl.jpg';
 import salmonImage from '../assets/images/salmon-bowl.jpg';
 import prawnsImage from '../assets/images/prawns-bowl.jpg';
-import cateringImage from '../assets/images/catering.jpg';
+import cateringImage from '../assets/images/bowl-in-hand.jpg';
 
-// Preload the AVIF hero bowl — matches the largest <source> below.
-const heroPreload = await getImage({ src: heroBowl, format: 'avif', width: 853 });
+// Optimised URL for the mural, handed to CSS as a custom property below.
+const mural = await getImage({ src: muralImage, format: 'webp', width: 1600 });
 ---
 
 <Layout
   title="Ichiban Pokedon | Japanese Poke Bowls & Donburi in Tauranga"
   description="Fresh Japanese poke bowls and donburi made daily at The Historic Village, Tauranga. Dine in, takeaway and catering for weddings, corporate and private events."
-  preloadImage={heroPreload.src}
-  preloadImageType="image/avif"
 >
-  <!-- Hero — white split layout per Diego's design -->
-  <section class="hero">
+  <!-- Hero — split layout over a faint wash of the shop's wall mural -->
+  <section class="hero" style={`--mural-url: url(${mural.src})`}>
     <div class="container hero-inner">
       <div class="hero-copy">
-        <span class="hero-script" aria-hidden="true">Fresh Japanese</span>
-        <h1>Poke &amp; Donburi</h1>
+        <h1>
+          <span class="hero-brand">Ichiban</span>
+          <span class="hero-script">Fresh Japanese</span>
+          <span class="hero-main">Poke &amp; Donburi</span>
+        </h1>
         <div class="hero-rule" aria-hidden="true"></div>
         <p class="hero-sub">
           Fresh ingredients.<br />Fast service.<br />Dine in, takeaway and catering.
@@ -46,7 +48,8 @@ const heroPreload = await getImage({ src: heroBowl, format: 'avif', width: 853 }
           formats={['avif', 'webp']}
           alt="Japanese fried chicken bowl with avocado from Ichiban Pokedon"
           loading="eager"
-          widths={[480, 700, 853]}
+          fetchpriority="high"
+          widths={[480, 760, 1181]}
           sizes="(max-width: 900px) 82vw, 620px"
         />
       </div>
@@ -109,9 +112,9 @@ const heroPreload = await getImage({ src: heroBowl, format: 'avif', width: 853 }
           <Picture
             src={cateringImage}
             formats={['avif', 'webp']}
-            alt="The Ichiban food truck serving at an event"
+            alt="A guest holding a fresh Ichiban chicken bowl at an outdoor event"
             loading="lazy"
-            widths={[640, 960, 1280]}
+            widths={[640, 960, 1098]}
             sizes="(max-width: 900px) 92vw, 560px"
           />
         </div>
@@ -138,19 +141,42 @@ const heroPreload = await getImage({ src: heroBowl, format: 'avif', width: 853 }
 </Layout>
 
 <style>
-  /* --- Hero: white split layout, cutout bowl right --- */
+  /* --- Hero: split layout, cutout bowl right, mural wash behind --- */
   .hero {
-    background: var(--color-paper);
+    position: relative;
+    background: var(--color-hero-wash);
     overflow: hidden;
   }
 
+  /* The shop's wall mural, dialled right back so it reads as texture only. */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: var(--mural-url);
+    background-size: cover;
+    background-position: center;
+    opacity: 0.12;
+    pointer-events: none;
+  }
+
   .hero-inner {
+    position: relative; /* above the mural wash */
     display: grid;
     grid-template-columns: 1fr 1.1fr;
     align-items: center;
     gap: clamp(1.5rem, 4vw, 4rem);
     min-height: min(78vh, 720px);
     padding-block: clamp(2rem, 5vw, 3.5rem);
+  }
+
+  .hero-brand {
+    display: block;
+    text-transform: uppercase;
+    font-size: clamp(1.05rem, 2vw, 1.45rem);
+    letter-spacing: 0.18em;
+    line-height: 1;
+    margin-bottom: 0.5rem;
   }
 
   .hero-script {
@@ -161,6 +187,12 @@ const heroPreload = await getImage({ src: heroBowl, format: 'avif', width: 853 }
     color: var(--color-accent-strong);
     line-height: 1;
     margin-bottom: 0.4rem;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .hero-main {
+    display: block;
   }
 
   .hero-copy h1 {
@@ -283,6 +315,10 @@ const heroPreload = await getImage({ src: heroBowl, format: 'avif', width: 853 }
   .catering-media :global(img) {
     width: 100%;
     height: auto;
+    /* Source is portrait; crop to landscape and hold the bowl in frame. */
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: 38% 62%;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lift);
   }

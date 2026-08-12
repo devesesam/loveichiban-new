@@ -1,0 +1,176 @@
+---
+/**
+ * Unlisted catering brochure page, reached by QR code at the food truck and at
+ * events. Deliberately not linked from anywhere on the site, excluded from the
+ * sitemap (see astro.config.mjs) and marked noindex.
+ *
+ * Page images come from execution/render_brochure.mjs — re-run that script if
+ * the brochure PDF is ever updated.
+ */
+import { Image, Picture } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import { SITE } from '../data/site';
+
+import logo from '../assets/images/logo.png';
+import brochure1 from '../assets/images/brochure-1.jpg';
+import brochure2 from '../assets/images/brochure-2.jpg';
+import brochure3 from '../assets/images/brochure-3.jpg';
+
+const PDF_URL = '/ichiban-catering-brochure-2026.pdf';
+
+const pages = [
+  {
+    image: brochure1,
+    alt: 'Catering for every occasion — let us feed your crowd. Office lunch, wedding day or private function: fresh Japanese bowls and friendly service. Delivered catering, food truck catering, canapés, mains and dessert.',
+  },
+  {
+    image: brochure2,
+    alt: 'Delivered catering — lunch is sorted. Freshly made bowls delivered ready to eat.',
+  },
+  {
+    image: brochure3,
+    alt: 'Food truck catering — we bring the kitchen, the team and the food to your event.',
+  },
+];
+---
+
+<Layout
+  title="Event Catering Guide 2026 | Ichiban Pokedon"
+  description="Ichiban Pokedon's catering brochure for events in Tauranga and the Bay of Plenty."
+  noindex
+  chrome={false}
+>
+  <div class="guide">
+    <header class="guide-head">
+      <a href="/" class="guide-logo" aria-label="Ichiban Pokedon home">
+        <Image src={logo} alt="Ichiban Pokedon logo" width={200} height={200} densities={[1, 2]} />
+      </a>
+      <span class="eyebrow">Event Catering</span>
+      <h1>Event Catering Guide 2026</h1>
+      <p class="lede">
+        Fresh Japanese poke &amp; donburi for weddings, corporate events, private functions and
+        festivals across Tauranga and the Bay of Plenty.
+      </p>
+      <div class="guide-actions">
+        <a href="/catering#enquire" class="btn btn-accent">Enquire About Catering</a>
+        <a href={PDF_URL} class="btn btn-outline" download>Download PDF</a>
+      </div>
+    </header>
+
+    <div class="guide-pages">
+      {
+        pages.map((page, i) => (
+          <Picture
+            src={page.image}
+            formats={['avif', 'webp']}
+            alt={page.alt}
+            loading={i === 0 ? 'eager' : 'lazy'}
+            widths={[600, 900, 1600]}
+            sizes="(max-width: 880px) 100vw, 820px"
+          />
+        ))
+      }
+    </div>
+
+    <footer class="guide-foot">
+      <h2>Let's talk about your event</h2>
+      <p class="lede">
+        Tell us the date, the headcount and the vibe — we'll come back with options and pricing.
+      </p>
+      <div class="guide-actions">
+        <a href="/catering#enquire" class="btn btn-accent">Enquire About Catering</a>
+        <a href={SITE.phoneHref} class="btn btn-outline">Call {SITE.phone}</a>
+      </div>
+      <p class="guide-contact">
+        <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+        <span aria-hidden="true">·</span>
+        <a href="/">loveichiban.co.nz</a>
+      </p>
+    </footer>
+  </div>
+</Layout>
+
+<style>
+  .guide {
+    max-width: 820px;
+    margin-inline: auto;
+    padding: clamp(2rem, 6vw, 3.5rem) var(--gutter) clamp(3rem, 8vw, 5rem);
+  }
+
+  .guide-head,
+  .guide-foot {
+    text-align: center;
+  }
+
+  .guide-logo img {
+    height: 96px;
+    width: auto;
+    margin-inline: auto;
+    margin-bottom: 1.5rem;
+  }
+
+  .guide-head h1 {
+    font-size: clamp(2rem, 6vw, 3rem);
+  }
+
+  .guide-head .lede,
+  .guide-foot .lede {
+    margin-top: 1rem;
+  }
+
+  .guide-actions {
+    display: flex;
+    gap: 0.9rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+
+  .btn-accent {
+    background: var(--color-accent-strong);
+    color: var(--color-paper);
+    border-color: var(--color-accent-strong);
+  }
+
+  .btn-accent:hover {
+    background: #b25a22;
+    border-color: #b25a22;
+  }
+
+  /* Brochure pages, stacked — reliable on every phone, unlike an inline PDF. */
+  .guide-pages {
+    display: grid;
+    gap: clamp(1rem, 3vw, 1.75rem);
+    margin-block: clamp(2.5rem, 7vw, 4rem);
+  }
+
+  .guide-pages :global(img) {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .guide-foot {
+    border-top: 1px solid var(--color-line);
+    padding-top: clamp(2.5rem, 6vw, 3.5rem);
+  }
+
+  .guide-foot h2 {
+    font-size: clamp(1.6rem, 4vw, 2.25rem);
+  }
+
+  .guide-contact {
+    margin-top: 1.75rem;
+    font-size: 0.95rem;
+    color: var(--color-ink-soft);
+    display: flex;
+    gap: 0.6rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .guide-contact a:hover {
+    color: var(--color-accent-strong);
+  }
+</style>

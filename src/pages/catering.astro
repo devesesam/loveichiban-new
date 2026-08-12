@@ -3,24 +3,24 @@ import { Picture } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import Section from '../components/Section.astro';
 
-// PLACEHOLDER IMAGES — swap for Diego's catering/food-truck shots when they arrive.
 import truckImage from '../assets/images/catering.jpg';
-import shopImage from '../assets/images/shop.jpg';
+import caravanImage from '../assets/images/food-truck.jpg';
+import weddingImage from '../assets/images/wedding.jpg';
+import cateringSpread from '../assets/images/catering-spread.jpg';
 import gallery1 from '../assets/images/gallery-1.jpg';
-import gallery3 from '../assets/images/gallery-3.jpg';
 
 const offers = [
   {
     title: 'Corporate Catering',
     text: 'Feed the whole team with fresh, generous Japanese bowls — delivered ready to serve or served live from our truck. Great for office lunches, conferences and client events across Tauranga and the Bay of Plenty.',
-    image: shopImage,
-    imageAlt: 'Rows of fresh Ichiban bowls being prepared for a catered event',
+    image: cateringSpread,
+    imageAlt: 'Ichiban poke bowls laid out on a table at an outdoor catered event',
   },
   {
     title: 'Weddings',
     text: 'Give your guests something memorable. Our food truck brings vibrant Japanese street-food energy to your venue, with a menu tailored to your day.',
-    image: gallery3,
-    imageAlt: 'An Ichiban team member serving a guest with a smile',
+    image: weddingImage,
+    imageAlt: 'The Ichiban caravan parked at a garden wedding reception',
   },
   {
     title: 'Private Functions',
@@ -31,8 +31,8 @@ const offers = [
   {
     title: 'Festivals & Events',
     text: "Running a festival or public event? Ichiban's truck serves fast, fresh and consistent — built for big crowds and hungry queues.",
-    image: truckImage,
-    imageAlt: 'The Ichiban food truck at a festival',
+    image: caravanImage,
+    imageAlt: 'The Ichiban caravan set up and serving at an outdoor event',
   },
 ];
 ---

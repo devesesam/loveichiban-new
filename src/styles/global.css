@@ -16,6 +16,7 @@
   --color-ink-soft: #55555c;
   --color-paper: #ffffff;
   --color-paper-warm: #faf9f7;
+  --color-hero-wash: #faf5ee;     /* warm cream behind the hero mural */
   --color-line: #ebe8e4;
   --color-accent: #f0965a;        /* light natural orange — details only */
   --color-accent-soft: #fdf0e6;   /* pale tint for badges / highlights */
@@ -42,7 +43,7 @@
   --shadow-lift: 0 10px 40px rgba(17, 17, 20, 0.12);
   --transition: 0.25s ease;
 
-  --header-height: 76px;
+  --header-height: 88px;
 }
 
 /* --------------------------------------------------------------------------
@@ -348,7 +349,7 @@ button {
 }
 
 .nav-logo img {
-  height: 52px;
+  height: 68px;
   width: auto;
 }
 
@@ -497,7 +498,7 @@ button {
 }
 
 .footer-logo img {
-  height: 64px;
+  height: 96px;
   width: auto;
 }
 
@@ -579,5 +580,20 @@ button {
 
   .footer-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Keep the badge legible on phones without letting it dominate the bar. */
+@media (max-width: 560px) {
+  :root {
+    --header-height: 80px;
+  }
+
+  .nav-logo img {
+    height: 62px;
+  }
+
+  .footer-logo img {
+    height: 84px;
   }
 }
