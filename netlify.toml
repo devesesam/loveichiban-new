@@ -61,6 +61,14 @@
   [headers.values]
     Cache-Control = "public, max-age=86400"
 
+# The catering brochure is served from an unlisted page. PDFs are their own URLs
+# and Google indexes them directly, so the page's noindex tag doesn't cover this
+# file — it needs its own header.
+[[headers]]
+  for = "/ichiban-catering-brochure-2026.pdf"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
 # HTML must revalidate so new asset hashes are picked up immediately after deploy.
 [[headers]]
   for = "/*.html"

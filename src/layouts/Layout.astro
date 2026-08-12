@@ -11,9 +11,21 @@ interface Props {
   ogImage?: string; // absolute URL; defaults to the site og image
   preloadImage?: string;
   preloadImageType?: string;
+  /** Unlisted pages: keep out of Google and out of the sitemap link. */
+  noindex?: boolean;
+  /** Set false for standalone pages that shouldn't carry the nav and footer. */
+  chrome?: boolean;
 }
 
-const { title, description, ogImage, preloadImage, preloadImageType } = Astro.props;
+const {
+  title,
+  description,
+  ogImage,
+  preloadImage,
+  preloadImageType,
+  noindex = false,
+  chrome = true,
+} = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImageUrl = ogImage ?? new URL('/og-image.jpg', Astro.site).href;
@@ -58,6 +70,7 @@ const restaurantSchema = {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
 
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:title" content={title} />
@@ -76,7 +89,7 @@ const restaurantSchema = {
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    {!noindex && <link rel="sitemap" href="/sitemap-index.xml" />}
 
     {
       preloadImage && (
@@ -93,14 +106,14 @@ const restaurantSchema = {
     {isHome && <script type="application/ld+json" set:html={JSON.stringify(restaurantSchema)} />}
   </head>
   <body>
-    <Header />
-    <MobileMenu />
+    {chrome && <Header />}
+    {chrome && <MobileMenu />}
 
     <main>
       <slot />
     </main>
 
-    <Footer />
+    {chrome && <Footer />}
 
     <script>
       // --- Header hairline on scroll ---

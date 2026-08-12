@@ -29,7 +29,7 @@ const img = (name) => root(`src/assets/images/${name}`);
  * pixels also get the screen colour pulled back out (despill) so the halo
  * doesn't tint the subject.
  */
-async function chromaKey(src, dest, { score, despill, hard = 90, soft = 30 }) {
+async function chromaKey(src, dest, { score, despill, hard = 90, soft = 30, png = { compressionLevel: 9, effort: 10 } }) {
   const { data, info } = await sharp(src)
     .ensureAlpha()
     .raw()
@@ -57,7 +57,7 @@ async function chromaKey(src, dest, { score, despill, hard = 90, soft = 30 }) {
   await sharp(data, { raw: { width: info.width, height: info.height, channels: info.channels } })
     .png({ compressionLevel: 9 })
     .toBuffer()
-    .then((buf) => sharp(buf).trim({ threshold: 0 }).png({ compressionLevel: 9 }).toFile(dest));
+    .then((buf) => sharp(buf).trim({ threshold: 0 }).png(png).toFile(dest));
 }
 
 // --- new logo: green screen -------------------------------------------------
@@ -68,6 +68,8 @@ await chromaKey(src('logo new.png'), img('logo.png'), {
     const cap = Math.max(d[o], d[o + 2]);
     if (d[o + 1] > cap) d[o + 1] = cap;
   },
+  // flat vector-style art: quantising is visually lossless here and ~4x smaller
+  png: { palette: true, quality: 90, effort: 10 },
 });
 
 // --- new hero bowl: magenta screen ------------------------------------------
@@ -80,6 +82,8 @@ await chromaKey(src('new bowl.png'), img('hero-bowl.png'), {
     if (d[o] > target) d[o] = target;
     if (d[o + 2] > target) d[o + 2] = target;
   },
+  // photographic subject: keep full colour, just compress harder
+  png: { compressionLevel: 9, effort: 10 },
 });
 
 // --- mural: crop the bench + ceiling away, lighten and desaturate ------------
@@ -94,7 +98,7 @@ await chromaKey(src('new bowl.png'), img('hero-bowl.png'), {
     })
     .modulate({ saturation: 0.55, brightness: 1.12 })
     .resize({ width: 1600, withoutEnlargement: true })
-    .png({ compressionLevel: 9 })
+    .png({ palette: true, quality: 88, effort: 10 })
     .toFile(img('mural.png'));
 }
 
@@ -103,6 +107,7 @@ const photos = [
   ['wedding.jfif', 'wedding.jpg'],
   ['caravan.png', 'food-truck.jpg'],
   ['bowl inna hand.jfif', 'bowl-in-hand.jpg'],
+  ['image0.png', 'catering-spread.jpg'],
 ];
 
 for (const [srcName, dest] of photos) {
@@ -121,6 +126,7 @@ const outputs = [
   'wedding.jpg',
   'food-truck.jpg',
   'bowl-in-hand.jpg',
+  'catering-spread.jpg',
 ];
 const { statSync } = await import('node:fs');
 for (const name of outputs) {
