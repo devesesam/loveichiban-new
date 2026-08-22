@@ -15,9 +15,11 @@ import jfcImage from '../assets/images/chicken-bowl.jpg';
 import salmonImage from '../assets/images/salmon-bowl.jpg';
 import prawnsImage from '../assets/images/prawns-bowl.jpg';
 import cateringImage from '../assets/images/bowl-in-hand.jpg';
+import shopInterior from '../assets/images/shop-interior.jpg'; // light wash behind the About section
 
 // Optimised URL for the mural, handed to CSS as a custom property below.
 const mural = await getImage({ src: muralImage, format: 'webp', width: 1600 });
+const aboutBg = await getImage({ src: shopInterior, format: 'webp', width: 1600 });
 ---
 
 <Layout
@@ -92,14 +94,19 @@ const mural = await getImage({ src: muralImage, format: 'webp', width: 1600 });
     </div>
   </Section>
 
-  <!-- About -->
-  <Section id="about" eyebrow="About Ichiban" narrow>
-    <p class="about-copy fade-in">
-      ICHIBAN serves fresh Japanese poke and donburi bowls made daily using quality ingredients
-      and bold flavours. Whether you're grabbing lunch or catering your next event, we focus on
-      fresh food, generous portions and fast service.
-    </p>
-  </Section>
+  <!-- About — over a light wash of the shop interior -->
+  <section class="section about-section" id="about" style={`--about-url: url(${aboutBg.src})`}>
+    <div class="container container-narrow">
+      <div class="about-intro fade-in">
+        <span class="eyebrow">About Ichiban</span>
+      </div>
+      <p class="about-copy fade-in">
+        ICHIBAN serves fresh Japanese poke and donburi bowls made daily using quality ingredients
+        and bold flavours. Whether you're grabbing lunch or catering your next event, we focus on
+        fresh food, generous portions and fast service.
+      </p>
+    </div>
+  </section>
 
   <!-- Google Reviews -->
   <ReviewsSection />
@@ -292,8 +299,30 @@ const mural = await getImage({ src: muralImage, format: 'webp', width: 1600 });
     margin-top: clamp(2rem, 4vw, 3rem);
   }
 
-  /* --- About --- */
-  #about :global(.section-intro) {
+  /* --- About: light wash of the shop interior behind the copy --- */
+  .about-section {
+    position: relative;
+    background: var(--color-paper);
+    overflow: hidden;
+  }
+
+  .about-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: var(--about-url);
+    background-size: cover;
+    background-position: center 30%;
+    opacity: 0.14;
+    pointer-events: none;
+  }
+
+  .about-section .container {
+    position: relative;
+  }
+
+  .about-intro {
+    text-align: center;
     margin-bottom: 1rem;
   }
 

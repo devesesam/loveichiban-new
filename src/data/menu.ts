@@ -85,6 +85,17 @@ export const MENU: MenuCategory[] = [
     ],
   },
   {
+    id: 'dessert',
+    title: 'Dessert',
+    items: [
+      {
+        name: 'Crispy Apple Dumpling with Vanilla Ice Cream',
+        description: 'Crunchy, sweet… just what you need after lunch',
+        price: '$8.90 · 3 pcs',
+      },
+    ],
+  },
+  {
     id: 'extras',
     title: 'Extras',
     items: [
